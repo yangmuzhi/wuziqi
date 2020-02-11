@@ -3,7 +3,7 @@
 - wuziqi/ 五子棋
 - c++, cython
 - gym style
-
+- two random policy 1059.15it/s
 
 ## usage
 ```
