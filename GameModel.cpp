@@ -114,7 +114,7 @@ bool GameModel::isDeadGame()
     return true;
 }
 
-std::vector<std::vector<int>> GameModel::getmap()
+std::vector<std::vector<int> > GameModel::getmap()
 {
     return gameMapVec;
 }
