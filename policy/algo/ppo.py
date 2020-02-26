@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 """
 refer: rlpack
+
+Actor Critic 框架
+
 Proximal Policy Optimization.
 目标loss由三部分组成：1. clipped policy loss；2. value loss；3. entropy。
 policy loss需要计算当前policy和old policy在当前state上的ratio。

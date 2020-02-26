@@ -22,3 +22,8 @@ python setup.py build_ext --inplace
     - [ ] reinforcement learning algo 
     - [ ] value net
     - [ ] MCTS
+
+refer:
+
+- https://www.cnblogs.com/pinard/p/10609228.html
+- https://www.cnblogs.com/pinard/p/10470571.html
