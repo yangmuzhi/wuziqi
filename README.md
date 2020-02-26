@@ -14,7 +14,11 @@ python setup.py build_ext --inplace
 ```
 
 
-## todo
+## TODO
 - [x] Env python  wrapper  
-- [ ] feature engineer
-- [ ] reinforcement learning algo 
+
+- [ ] AI algo
+    - [ ] feature engineer
+    - [ ] reinforcement learning algo 
+    - [ ] value net
+    - [ ] MCTS
