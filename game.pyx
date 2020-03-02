@@ -38,3 +38,7 @@ cdef class kernel:
     def is_dead(self):
         cdef bint is_dead = self.gm.isDeadGame()
         return is_dead
+
+    def get_feature(self, bint flag):
+        cdef  vector[vector[vector[int]]] feature = self.gm.get_feature(flag)
+        return feature

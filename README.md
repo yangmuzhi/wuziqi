@@ -18,9 +18,9 @@ python setup.py build_ext --inplace
 - [x] Env python  wrapper  
 
 - [ ] AI algo
-    - [ ] feature engineer
+    - [x] feature engineer
     - [ ] reinforcement learning algo 
-    - [ ] value net
+    - [x] value net
     - [ ] MCTS
 
 refer:

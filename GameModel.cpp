@@ -21,6 +21,21 @@ void GameModel::startGame()
         gameMapVec.push_back(lineBoard);
     }
 
+    // 初始化feature
+    // feature.clear();
+    // for (int m = 0;m<num_feature; m++)
+    // {
+    //     std::vector<std::vector<int>> feature_vec;
+    //     for (int i = 0; i < kBoardSizeNum; i++)
+    //     {
+    //         std::vector<int> line_feature;
+    //         for (int j = 0; j < kBoardSizeNum; j++)
+    //             line_feature.push_back(0);
+    //         feature_vec.push_back(line_feature);
+    //     }
+    //     feature.push_back(feature_vec);
+    // }
+
     // 己方下为true,对方下位false
     playerFlag = true;
 
@@ -40,6 +55,19 @@ void GameModel::updateGameMap(int row, int col)
 void GameModel::actionByPerson(int row, int col)
 {
     updateGameMap(row, col);
+
+    // update action history
+    if(playerFlag)
+    {    
+        action0_vec_row.push_back(row);
+        action0_vec_col.push_back(col);
+    }
+    else
+    {
+        action1_vec_row.push_back(row);
+        action1_vec_col.push_back(col);
+    }
+    
 }
 
 
@@ -118,3 +146,160 @@ std::vector<std::vector<int>> GameModel::getmap()
 {
     return gameMapVec;
 }
+
+std::vector<std::vector<std::vector<int>>> GameModel::get_feature(bool playerflag)
+{
+    // flag ： 0表示守， 1 表示攻; 
+    std::vector<std::vector<std::vector<int>>> feature;
+    int flag, is_attack, is_opp;
+    // 0: 标明攻守 
+    if (playerflag)
+    {   
+        flag = 1;
+        is_attack = 1;
+        is_opp = -1;
+    }
+    else
+    {    
+        flag = 0;
+        is_attack = -1;
+        is_opp = 1;
+    }
+    std::vector<std::vector<int>> feature_vec = empty_vec(flag);
+    feature.push_back(feature_vec);
+
+    // 1: 目前的所有的棋子
+    // std::vector<std::vector<int>> feature_vec;
+    feature_vec.clear();
+    for (int i = 0; i < kBoardSizeNum; i++)
+    {
+        std::vector<int> line_feature;
+        for (int j = 0; j < kBoardSizeNum; j++)
+            if (gameMapVec[i][j] != 0)
+                line_feature.push_back(1);
+            else
+                line_feature.push_back(0);
+        feature_vec.push_back(line_feature);
+    }
+    feature.push_back(feature_vec);
+
+    // 2: 自己的棋子
+    // std::vector<std::vector<int>> feature_vec;
+    feature_vec.clear();
+    for (int i = 0; i < kBoardSizeNum; i++)
+    {
+        std::vector<int> line_feature;
+        for (int j = 0; j < kBoardSizeNum; j++)
+            if( gameMapVec[i][j] == is_attack)
+                line_feature.push_back(1);
+            else
+                line_feature.push_back(0);
+        feature_vec.push_back(line_feature);
+    }
+    feature.push_back(feature_vec);
+
+    // 3: 对手的棋子
+    // std::vector<std::vector<int>> feature_vec;
+    feature_vec.clear();
+    for (int i = 0; i < kBoardSizeNum; i++)
+    {
+        std::vector<int> line_feature;
+        for (int j = 0; j < kBoardSizeNum; j++)
+            if (gameMapVec[i][j] == is_opp)
+                line_feature.push_back(1);
+            else
+                line_feature.push_back(0);
+        feature_vec.push_back(line_feature);
+    }
+    feature.push_back(feature_vec);
+    // 4: 没有下棋的位置
+    // std::vector<std::vector<int>> feature_vec;
+    feature_vec.clear();
+    for (int i = 0; i < kBoardSizeNum; i++)
+    {
+        std::vector<int> line_feature;
+        for (int j = 0; j < kBoardSizeNum; j++)
+            if (gameMapVec[i][j] == 0)
+                line_feature.push_back(1);
+            else
+                line_feature.push_back(0);
+        feature_vec.push_back(line_feature);
+    }
+    feature.push_back(feature_vec);
+
+    // 5 自己历史手牌的位置 stack 最近5步
+    for (int step=0; step<5; step++)
+    {
+        feature_vec = make_action_history(1, step);
+        feature.push_back(feature_vec);
+    }
+
+    // 6 对手历史手牌的位置 stack 最近5步
+    for (int step=0; step<5; step++)
+    {
+        feature_vec = make_action_history(0, step);
+        feature.push_back(feature_vec);
+    }
+    
+
+    return  feature;
+}
+
+
+//  action history
+// flag player flag, step: time step, from 0 to N
+std::vector<std::vector<int>> GameModel::make_action_history(int flag, int step)
+{
+    std::vector<int> action_row={}, action_col={};
+    std::vector<std::vector<int>> feature_vec;
+    if (flag)
+    {
+        action_row = action0_vec_row;
+        action_col = action0_vec_col;
+    }
+    else
+    {
+        action_row = action1_vec_row;
+        action_col = action1_vec_col;
+    }
+    //  warning: comparison between signed and unsigned integer expressions 
+    if(action_row.size() >= (step+1))
+    {
+        for (int i = 0; i < kBoardSizeNum; i++)
+        {
+            std::vector<int> line_feature;
+            for (int j = 0; j < kBoardSizeNum; j++)
+                if ((i == action_row[step]) && (j == action_col[step]))
+                    line_feature.push_back(1);
+                else
+                    line_feature.push_back(0);
+            feature_vec.push_back(line_feature);
+        }
+    }
+    else
+    {
+        for (int i = 0; i < kBoardSizeNum; i++)
+        {
+            std::vector<int> line_feature;
+            for (int j = 0; j < kBoardSizeNum; j++)
+                line_feature.push_back(0);
+            feature_vec.push_back(line_feature);
+        }
+    }
+    return feature_vec;
+}
+
+
+std::vector<std::vector<int>> GameModel::empty_vec(int flag)
+{
+    std::vector<std::vector<int>> feature_vec;
+        for (int i = 0; i < kBoardSizeNum; i++)
+        {
+            std::vector<int> line_feature;
+            for (int j = 0; j < kBoardSizeNum; j++)
+                line_feature.push_back(flag);
+            feature_vec.push_back(line_feature);
+        }
+        return feature_vec;
+}
+

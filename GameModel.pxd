@@ -15,4 +15,9 @@ cdef extern from "GameModel.h":
         bint isWin(int row, int col)
         bint isDeadGame()
         vector[vector[int]] getmap()
+        vector[vector[vector[int]]] get_feature(bint playerFlag)
+        vector[int] action0_vec_row
+        vector[int] action0_vec_col
+        vector[int] action1_vec_row
+        vector[int] action1_vec_col
         
