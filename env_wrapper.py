@@ -30,7 +30,7 @@ class wzq_env:
     
     def step(self, action):
         # action -> row, col
-        self.flag = ! self.flag
+        self.flag = not self.flag
         assert not action in self._forbidden_actions, "forbidden action"
         self._forbidden_actions.append(action)
         row, col = self.dict.get(action)
