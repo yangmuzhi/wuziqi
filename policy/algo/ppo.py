@@ -45,14 +45,15 @@ class PPO(Base):
     def _build_network(self):
         """Build tensorflow operations for algorithms."""
         self._obs = tf.placeholder(tf.float32, [None, *self._dim_obs])
-        self._act = tf.placeholder(tf.float32, [None, self._dim_act])
+        self._act = tf.placeholder(tf.int32, [None, self._dim_act])
 
         self._adv = tf.placeholder(tf.float32, [None])
         self._ret = tf.placeholder(tf.float32, [None])
         self._logp_old = tf.placeholder(tf.float32, [None])
         self.all_phs = [self._obs, self._act, self._adv, self._ret, self._logp_old]
 
-        self.pi, self.logp, self.logp_pi = self._policy_fn(self._obs, self._act)
+        self.pi, self.logp_list = self._policy_fn(self._obs)
+        self.logp = tf.gather_nd(self.logp_list, self._act)
         self.v = self._value_fn(self._obs)
 
     def _build_algorithm(self):
@@ -72,8 +73,9 @@ class PPO(Base):
         :param obs: the observation that could be image or real-number features
         :return: actions
         """
-        a = self.sess.run(self.pi, feed_dict={self._obs: obs})
-        return a
+        a_prob = self.sess.run(self.pi, feed_dict={self._obs: obs})
+
+        return a_prob
 
     def update(self, databatch):
         """

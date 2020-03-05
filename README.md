@@ -19,7 +19,7 @@ python setup.py build_ext --inplace
 
 - [ ] AI algo
     - [x] feature engineer
-    - [ ] reinforcement learning algo 
+    - [x] reinforcement learning algo 
     - [x] value net
     - [ ] MCTS
 
