@@ -5,3 +5,4 @@ game.cpp
 *.ipynb
 *.ipynb_checkpoints
 __pycache__/
+/test/

@@ -21,6 +21,43 @@ void GameModel::startGame()
         gameMapVec.push_back(lineBoard);
     }
 
+    // init feature
+    featureTensor0.clear();
+    for (int k = 0; k < nFeature; k++)
+    {
+
+        std::vector<std::vector<int> > mapBoard;
+        for (int i = 0; i < kBoardSizeNum; i++)
+        {
+            std::vector<int> lineBoard;
+            for (int j = 0; j < kBoardSizeNum; j++)
+                if(i==0)
+                    lineBoard.push_back(1);
+                else
+                    lineBoard.push_back(0);
+            mapBoard.push_back(lineBoard);
+        }
+        featureTensor0.push_back(mapBoard);
+    }
+    
+    featureTensor1.clear();
+    for (int k = 0; k < nFeature; k++)
+    {
+
+        std::vector<std::vector<int> > mapBoard;
+        for (int i = 0; i < kBoardSizeNum; i++)
+        {
+            std::vector<int> lineBoard;
+            for (int j = 0; j < kBoardSizeNum; j++)
+                if(i==0)
+                    lineBoard.push_back(1);
+                else
+                    lineBoard.push_back(0);
+            mapBoard.push_back(lineBoard);
+        }
+        featureTensor1.push_back(mapBoard);
+    }
+
     // 己方下为true,对方下位false
     playerFlag = true;
 
@@ -33,13 +70,15 @@ void GameModel::updateGameMap(int row, int col)
     else
         gameMapVec[row][col] = -1;
 
-    // 换手
-    playerFlag = !playerFlag;
+   
 }
 
 void GameModel::actionByPerson(int row, int col)
 {
     updateGameMap(row, col);
+    updatefeature(row, col);
+     // 换手
+    playerFlag = !playerFlag;
 }
 
 
@@ -117,4 +156,32 @@ bool GameModel::isDeadGame()
 std::vector<std::vector<int> > GameModel::getmap()
 {
     return gameMapVec;
+}
+
+
+// update feature by step
+void GameModel::updatefeature(int row, int col)
+{
+    if (playerFlag)
+    {
+        //
+        featureTensor0[0][row][col] = 1;   
+    }
+    else
+    {
+
+    }
+    
+}
+
+
+std::vector<std::vector<std::vector<int> > > GameModel::getfeature(bool flag)
+{
+    if (flag)
+        return featureTensor1;
+    else
+    {
+        return featureTensor0;
+    }
+    
 }
