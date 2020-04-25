@@ -25,7 +25,9 @@ public:
     
     bool playerFlag; // 标示下棋方
     int gameStatus; // 游戏状态
-
+    
+    // std::vector<std::vector<std::vector<int>>> feature; // 储存特征 Nx15x15
+    
     void startGame(); // 开始游戏
     void actionByPerson(int row, int col); // 人执行下棋
     void updateGameMap(int row, int col); // 每次落子后更新游戏棋盘

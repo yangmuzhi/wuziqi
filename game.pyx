@@ -14,15 +14,12 @@ cdef class kernel:
     
     def reset(self):
         self.gm.startGame()
-        cdef vector[vector[int]] gameMapVec = self.gm.getmap()
-        return gameMapVec
     
     def step(self, int row, int col):
         self._action(row, col)
-        cdef vector[vector[int]] gameMapVec = self.gm.getmap()
         cdef bint is_win = self.is_win(row, col)
         cdef bint is_dead = self.is_dead()
-        return gameMapVec, is_win, is_dead
+        return  is_win, is_dead
     
     def _get_map(self):
         cdef vector[vector[int]] gameMapVec = self.gm.getmap()
@@ -38,3 +35,7 @@ cdef class kernel:
     def is_dead(self):
         cdef bint is_dead = self.gm.isDeadGame()
         return is_dead
+
+    def get_feature(self, bint flag):
+        cdef  vector[vector[vector[int]]] feature = self.gm.get_feature(flag)
+        return feature
