@@ -31,7 +31,8 @@ void GameModel::startGame()
         {
             std::vector<int> lineBoard;
             for (int j = 0; j < kBoardSizeNum; j++)
-                if(i==0)
+                if(k==0)
+                // map 0
                     lineBoard.push_back(1);
                 else
                     lineBoard.push_back(0);
@@ -49,7 +50,8 @@ void GameModel::startGame()
         {
             std::vector<int> lineBoard;
             for (int j = 0; j < kBoardSizeNum; j++)
-                if(i==0)
+                if(k==0)
+                // map 0
                     lineBoard.push_back(1);
                 else
                     lineBoard.push_back(0);
@@ -162,20 +164,76 @@ std::vector<std::vector<int> > GameModel::getmap()
 // update feature by step
 void GameModel::updatefeature(int row, int col)
 {
+
+
+    // map 11
+    featureTensor0[11][row][col] = 1; 
+    featureTensor1[11][row][col] = 1; 
+
     if (playerFlag)
     {
+        // player0 feature
+
+        // map 5
+        featureTensor0[5] = featureTensor0[4];   
+        // map 4
+        featureTensor0[4] = featureTensor0[3];   
+        // map 3
+        featureTensor0[3] = featureTensor0[2];   
+        // map 2
+        featureTensor0[2] = featureTensor0[1];   
+        // map 1
+        featureTensor0[1][row][col] = 1;   
+
         //
-        featureTensor0[0][row][col] = 1;   
+        // player1 feature
+        
+        // map 6
+        featureTensor1[6] = featureTensor0[1];  
+        // map 7
+        featureTensor1[7] = featureTensor0[2]; 
+        // map 8
+        featureTensor1[8] = featureTensor0[3];   
+        // map 9
+        featureTensor1[9] = featureTensor0[4];   
+        // map 10
+        featureTensor1[10] = featureTensor0[5]; 
+  
     }
     else
     {
+        // player1 feature
 
+        // map 5
+        featureTensor1[5] = featureTensor1[4];   
+        // map 4
+        featureTensor1[4] = featureTensor1[3];   
+        // map 3
+        featureTensor1[3] = featureTensor1[2];   
+        // map 2
+        featureTensor1[2] = featureTensor1[1];   
+        // map 1
+        featureTensor1[1][row][col] = 1;   
+
+        //
+        // player0 feature
+        
+        // map 6
+        featureTensor0[6] = featureTensor1[1];  
+        // map 7
+        featureTensor0[7] = featureTensor1[2]; 
+        // map 8
+        featureTensor0[8] = featureTensor1[3];   
+        // map 9
+        featureTensor0[9] = featureTensor1[4];   
+        // map 10
+        featureTensor0[10] = featureTensor1[5]; 
     }
     
 }
 
 
-std::vector<std::vector<std::vector<int> > > GameModel::getfeature(bool flag)
+std::vector<std::vector<std::vector<int> > > GameModel::get_feature(bool flag)
 {
     if (flag)
         return featureTensor1;

@@ -4,9 +4,9 @@
 // ---- 五子棋游戏模型类 ---- //
 #include <vector>
 
-// // 游戏类型，双人还是AI（目前固定让AI下黑子）
+// 游戏类型，双人还是AI（目前固定让AI下黑子）
 
-// // 游戏状态
+//  游戏状态
 const int PLAYING=0, WIN=1, DEAD=2;
 
 // 棋盘尺寸
@@ -35,7 +35,7 @@ public:
     bool isWin(int row, int col); // 判断游戏是否胜利
     bool isDeadGame(); // 判断是否和棋
     std::vector<std::vector<int> > getmap();
-    std::vector<std::vector<std::vector<int> > > getfeature(bool flag); // n * size**2
+    std::vector<std::vector<std::vector<int> > > get_feature(bool flag); // n * size**2
 };
 
 #endif // GAMEMODEL_H
