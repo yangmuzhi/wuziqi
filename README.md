@@ -16,9 +16,11 @@ python setup.py build_ext --inplace
 
 ## TODO
 - [x] Env python  wrapper  
-- [ ] feature engineer
+- [x] feature engineer
 - [ ] reinforcement learning algo 
 
+## notes
+- 
 
 ## Feature Description
 

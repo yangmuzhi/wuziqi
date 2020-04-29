@@ -16,8 +16,8 @@ cdef extern from "GameModel.h":
         bint isDeadGame()
         vector[vector[int]] getmap()
         vector[vector[vector[int]]] get_feature(bint playerFlag)
-        vector[int] action0_vec_row
-        vector[int] action0_vec_col
-        vector[int] action1_vec_row
-        vector[int] action1_vec_col
+        vector[vector[int]] gameMapVec
+        vector[vector[vector[int]]] featureTensor0
+        vector[vector[vector[int]]] featureTensor1
+
         

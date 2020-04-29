@@ -14,3 +14,6 @@ class rand_agent:
     def get_action(self, obs, forbidden_actions):
         self.actions.difference_update(set(forbidden_actions))
         return random.choice(list(self.actions))
+    
+    def update(self, databatch):
+        pass

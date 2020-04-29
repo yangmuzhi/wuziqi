@@ -11,7 +11,7 @@ const int PLAYING=0, WIN=1, DEAD=2;
 
 // 棋盘尺寸
 const int kBoardSizeNum = 15;
-const int nFeature = 5;
+const int nFeature = 12;
 
 class GameModel
 {

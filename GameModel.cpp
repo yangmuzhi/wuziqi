@@ -235,11 +235,12 @@ void GameModel::updatefeature(int row, int col)
 
 std::vector<std::vector<std::vector<int> > > GameModel::get_feature(bool flag)
 {
+    //  flag = 1
     if (flag)
-        return featureTensor1;
+        return featureTensor0;
     else
     {
-        return featureTensor0;
+        return featureTensor1;
     }
     
 }
